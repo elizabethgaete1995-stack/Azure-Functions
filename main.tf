@@ -18,9 +18,9 @@ locals {
   effective_tags = var.inherit ? local.tags_inherited : local.tags
 
   # slugify simple
-  entity_slug = lower(replace(replace(replace(trim(var.entity), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
-  env_slug    = lower(replace(replace(replace(trim(var.environment), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
-  app_slug    = lower(replace(replace(replace(trim(var.app_name), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
+  entity_slug = lower(replace(replace(replace(trimspace(var.entity), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
+  env_slug    = lower(replace(replace(replace(trimspace(var.environment), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
+  app_slug    = lower(replace(replace(replace(trimspace(var.app_name), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
 
   generated_function_name = "${local.entity_slug}-${local.env_slug}-${local.app_slug}-${var.name_suffix}"
   effective_function_name = (var.function_app_name != null && trim(var.function_app_name) != "") ? var.function_app_name : local.generated_function_name
