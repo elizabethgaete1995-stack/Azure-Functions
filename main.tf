@@ -18,9 +18,9 @@ locals {
   effective_tags = var.inherit ? local.tags_inherited : local.tags
 
   # slugify simple
-  entity_slug = lower(regexreplace(replace(replace(trim(var.entity), " ", "-"), "_", "-"), "[^a-z0-9-]", ""))
-  env_slug    = lower(regexreplace(replace(replace(trim(var.environment), " ", "-"), "_", "-"), "[^a-z0-9-]", ""))
-  app_slug    = lower(regexreplace(replace(replace(trim(var.app_name), " ", "-"), "_", "-"), "[^a-z0-9-]", ""))
+  entity_slug = lower(replace(replace(replace(trim(var.entity), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
+  env_slug    = lower(replace(replace(replace(trim(var.environment), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
+  app_slug    = lower(replace(replace(replace(trim(var.app_name), " ", "-"), "_", "-"), "/[^a-z0-9-]/", ""))
 
   generated_function_name = "${local.entity_slug}-${local.env_slug}-${local.app_slug}-${var.name_suffix}"
   effective_function_name = (var.function_app_name != null && trim(var.function_app_name) != "") ? var.function_app_name : local.generated_function_name
@@ -29,7 +29,7 @@ locals {
   effective_plan_name  = (var.plan_name != null && trim(var.plan_name) != "") ? var.plan_name : local.generated_plan_name
 
   # Storage account: debe ser lowercase alfanumérico y <=24; generamos algo seguro (sin guiones) y truncamos.
-  sa_base = substr(regexreplace("${local.entity_slug}${local.env_slug}${local.app_slug}sa01", "[^a-z0-9]", ""), 0, 24)
+  sa_base = substr(replace("${local.entity_slug}${local.env_slug}${local.app_slug}sa01", "/[^a-z0-9]/", ""), 0, 24)
   effective_sa_name = (var.storage_account_name != null && trim(var.storage_account_name) != "") ? lower(var.storage_account_name) : local.sa_base
 
   generated_ai_name = "${local.entity_slug}-${local.env_slug}-${local.app_slug}-ai-01"
