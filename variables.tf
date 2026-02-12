@@ -22,12 +22,32 @@ variable "inherit" {
   type    = bool
   default = true
 }
+############################################
+# Resource Group / Location / Subscription
+############################################
+variable "rsg_name" {
+  description = "Nombre del Resource Group donde se despliega."
+  type        = string
+}
+
+variable "location" {
+  description = "Azure region donde se despliega (ej: eastus2, brazilsouth)."
+  type        = string
+}
+
+variable "subscriptionid" {
+  description = "Subscription ID destino."
+  type        = string
+}
+
+variable "tenantid" {
+  description = "Tenant ID destino."
+  type        = string
+}
 
 ############################
 # Básicos
 ############################
-variable "rsg_name" { type = string }
-variable "location" { type = string }
 
 # Nombre final: si viene null/empty, se genera con {entity}-{environment}-{app_name}-func-01
 variable "function_app_name" {
